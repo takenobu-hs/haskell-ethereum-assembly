@@ -3,8 +3,8 @@ module Language.Evm.Instructions where
 
 import           Language.Evm.Internal
 import           Language.Evm.IR
-import           Language.Evm.Opcodes  (isByteRange)
 import           Language.Evm.Types
+import           Language.Evm.Utils
 import           Prelude               hiding (EQ, GT, LT)
 
 
@@ -34,9 +34,6 @@ _push :: Integer -> EvmAsm
 _push x
     | isByteRange 32 x = makeAsm $ PUSH (calcByte x) x
     | otherwise        = error $ (show x) ++ ": out of range for PHSHn"
-
-calcByte :: Integer -> Int
-calcByte x = floor((logBase 2 (fromInteger x)) / 8) + 1
 
 
 -- built-in function

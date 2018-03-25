@@ -3,6 +3,7 @@ module Language.Evm.Opcodes where
 
 import           Language.Evm.IR
 import           Language.Evm.Types
+import           Language.Evm.Utils
 import           Prelude            hiding (EQ, GT, LT)
 import           Text.Printf        (printf)
 
@@ -121,17 +122,4 @@ codemap (P_RAW x)      = printf "%02x" x
 
 -- error
 codemap x              = error $ show x
-
-
-------------------------------------------------------------------------
--- Utility
-------------------------------------------------------------------------
--- Size adjustment for PUSHn
-isByteRange :: Int -> Integer -> Bool
-isByteRange nbyte x
-    | x < 2^(8*nbyte) && x >= 0 = True
-    | otherwise              = False
-
-clipByte :: Int -> Integer -> EvmCode
-clipByte nbyte x = reverse . take (2*nbyte) . reverse $ printf "%064x" x
 
