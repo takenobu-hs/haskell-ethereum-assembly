@@ -220,5 +220,3 @@ invalid      = makeAsm INVALID
 revert       = makeAsm REVERT
 selfdestruct = makeAsm SELFDESTRUCT
 
-
-

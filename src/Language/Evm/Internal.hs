@@ -8,42 +8,17 @@ import           Language.Evm.Types
 
 
 ------------------------------------------------------------------------
--- basic type and data
+-- Initial data
 ------------------------------------------------------------------------
-{-
-type Evm a = State EvmState a
-type EvmAsm = Evm ()
--}
-
-{-
--- data EvmState = EvmState {
-newtype EvmState = EvmState {
-                  insts :: [EvmIr]
-                } deriving Show
--}
-
 initState :: EvmState
 initState = EvmState []
 
-{-
-data EvmIr = STOP
-           | ADD
-           | PUSH Int Int
---         | PUSH1 Int
---         | PUSH2 Int
-           | JUMP
-           | JUMPDEST
-           | P_JUMP String      -- pseudo instruction
-           | P_JUMPDEST String  -- pseudo instruction
-           | P_LABEL String     -- pseudo instruction
-           | P_PUSH String      -- pseudo instruction
-           | P_RAW Int          -- pseudo instruction
-           deriving Show
--}
+initProgInfo :: ProgInfo 
+initProgInfo = (0, [], [])
 
 
 ------------------------------------------------------------------------
--- asm utility
+-- Asm utility
 ------------------------------------------------------------------------
 makeAsm :: EvmIr -> EvmAsm
 makeAsm op = do
@@ -51,9 +26,8 @@ makeAsm op = do
     modify $ \s -> s { insts = i ++ [op] }
 
 
-
 ------------------------------------------------------------------------
--- pre-processing
+-- Pre-processing
 ------------------------------------------------------------------------
 genAsmState :: EvmAsm -> EvmState
 genAsmState p = execState p initState
@@ -63,7 +37,7 @@ asm2ir p = insts $ genAsmState p
 
 
 ------------------------------------------------------------------------
--- pre-processing
+-- Pre-processing
 ------------------------------------------------------------------------
 type Addr = Int
 type Symbol = String
@@ -75,7 +49,7 @@ type ProgInfo = (Addr, InstMap, SymbolMap)
 instLen :: EvmIr -> Int
 instLen (P_LABEL _) = 0
 instLen (PUSH n _)  = n + 1
-instLen _           = 1 -- tmp
+instLen _           = 1
 
 addSymbolMap :: SymbolMap -> Addr -> EvmIr -> SymbolMap
 addSymbolMap smap pc (P_JUMPDEST s) = (s, pc) : smap
@@ -91,7 +65,7 @@ genProgInfo (pc, imap, smap) (x:xs) =
     in  genProgInfo (pc', imap', smap') xs
 
 debugShowIr :: EvmAsm -> ProgInfo
-debugShowIr x = genProgInfo (0, [], []) $ asm2ir x
+debugShowIr x = genProgInfo initProgInfo $ asm2ir x
 
 
 -- pre-phase2 (symbol resolution)
@@ -111,44 +85,28 @@ convSymbol _ x = [x]
 resolveSymbols :: SymbolMap -> [EvmIr] -> [EvmIr]
 resolveSymbols smap []     = []
 resolveSymbols smap (x:xs) = convSymbol smap x ++ resolveSymbols smap xs
--- resolveSymbols smap = foldr ((++) . convSymbol smap) []
 
 ir2ir :: [EvmIr] -> [EvmIr]
-ir2ir x = let (_, _, smap) = genProgInfo (0, [], []) x
+ir2ir x = let (_, _, smap) = genProgInfo initProgInfo x
           in  resolveSymbols smap x
 
 
 ------------------------------------------------------------------------
--- bytecode generation
+-- Bytecode generation
 ------------------------------------------------------------------------
-{-
--- codemap :: EvmIr -> Either String String
-type EvmCode = String
-
-codemap :: EvmIr -> EvmCode
-codemap ADD = "01"
-codemap _   = "@@"
--}
-
 ir2code :: [EvmIr] -> EvmCode
 ir2code []     = ""
 ir2code (x:xs) = codemap x ++ ir2code xs
--- ir2code = foldr ((++) . codemap) ""
 
 asm2code :: EvmAsm -> EvmCode
 asm2code = ir2code . ir2ir . asm2ir
 
-{-
-codegen :: EvmAsm -> EvmCode
-codegen = asm2code
--}
-
 
 ------------------------------------------------------------------------
--- special instructions and functions
+-- Special instructions and functions
 ------------------------------------------------------------------------
 __codeSize :: EvmAsm -> Int
-__codeSize p = let (size, _, _) = genProgInfo (0, [], [])
+__codeSize p = let (size, _, _) = genProgInfo initProgInfo
                                . insts . execState p $ initState
                in size
 
