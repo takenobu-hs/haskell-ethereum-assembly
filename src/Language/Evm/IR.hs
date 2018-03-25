@@ -1,11 +1,14 @@
 
 module Language.Evm.IR where
 
+------------------------------------------------------------------------
+-- Internal Representation of EVM instructions
+--    see yellow paper's Appendix H
+------------------------------------------------------------------------
 
-------------------------------------------------------------------------
--- basic type and data
-------------------------------------------------------------------------
-data EvmIr = STOP
+data EvmIr =
+           -- 0s: Stop and Arithmetic Operations
+             STOP
            | ADD
            | MUL
            | SUB
@@ -15,6 +18,8 @@ data EvmIr = STOP
            | SMOD
            | EXP
            | NOT
+
+           -- 10s: Comparison & Bitwise Logic Operations
            | LT
            | GT
            | SLT
@@ -28,7 +33,11 @@ data EvmIr = STOP
            | BYTE
            | ADDMOD
            | MULMOD
+
+           -- 20s: SHA3
            | SHA3
+
+           -- 30s: Environmental Information
            | ADDRESS
            | BALANCE
            | ORIGIN
@@ -46,12 +55,16 @@ data EvmIr = STOP
            | EXTCODECOPY
            | RETURNDATASIZE
            | RETURNDATACOPY
+
+           -- 40s: Block Information
            | BLOCKHASH
            | COINBASE
            | TIMESTAMP
            | NUMBER
            | DIFFICULTY
            | GASLIMIT
+
+           -- 50s: Stack, Memory, Storage and Flow Operations
            | POP
            | MLOAD
            | MSTORE
@@ -64,8 +77,10 @@ data EvmIr = STOP
            | MSIZE
            | GAS
            | JUMPDEST
+
+           -- 60s & 70s: Push Operations
            | PUSH Int Int
-{-
+{---
            | PUSH1
            | PUSH2
            | PUSH3
@@ -98,7 +113,12 @@ data EvmIr = STOP
            | PUSH30
            | PUSH31
            | PUSH32
--}
+
+---}
+
+           -- 80s: Duplication Operations
+           | DUP Int
+{---
            | DUP1
            | DUP2
            | DUP3
@@ -115,6 +135,11 @@ data EvmIr = STOP
            | DUP14
            | DUP15
            | DUP16
+---}
+
+           -- 90s: Exchange Operations
+           | SWAP Int
+{---
            | SWAP1
            | SWAP2
            | SWAP3
@@ -131,21 +156,32 @@ data EvmIr = STOP
            | SWAP14
            | SWAP15
            | SWAP16
+---}
+
+           -- a0s: Logging Operations
+           | LOG Int
+{---
            | LOG0
            | LOG1
            | LOG2
            | LOG3
            | LOG4
+---}
+
+           -- f0s: System operations
            | CREATE
            | CALL
            | RETURN
            | CALLCODE
            | REVERT
            | SELFDESTRUCT
-           | P_JUMP String      -- pseudo instruction
-           | P_JUMPDEST String  -- pseudo instruction
-           | P_LABEL String     -- pseudo instruction
-           | P_PUSH String      -- pseudo instruction
-           | P_RAW Int          -- pseudo instruction
+
+           -- pseudo instructions
+           | P_JUMPDEST String  -- jump destination with symbol
+           | P_JUMP String      -- jump with symbol
+           | P_LABEL String     -- symbol label
+           | P_PUSH String      -- push with symbol
+           | P_RAW Int          -- raw byte
+
            deriving Show
 
