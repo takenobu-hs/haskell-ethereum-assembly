@@ -12,6 +12,7 @@ Warning:
 
 Feature:
   * Composable assembly
+  * User definable functions
   * Purely functional implementation
   * Simple and slow implementation for readability
   * Only a few dependent libraries and GHC extensions
@@ -66,7 +67,7 @@ Pseudo instruction and built-in function:
 
   * `_dest` and `_label` : pseudo instruction for jump and push with symbol
   * `_raw` : pseudo instruction for raw byte
-  * `_codeSize` : built-in for code siez
+  * `_codeSize` : built-in function for code size
 
   ```Haskell
   prog3 :: EvmAsm
@@ -88,7 +89,7 @@ Pseudo instruction and built-in function:
       _raw 0x8
   ```
 
-Haskell host language:  
+Using host language (Haskell):  
 Example1:
 
   ```Haskell
