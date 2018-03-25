@@ -11,6 +11,9 @@ import           Text.Printf        (printf)
 --    see yellow paper's Appendix H
 ------------------------------------------------------------------------
 
+------------------------------------------------------------------------
+-- Code mapping
+------------------------------------------------------------------------
 codemap :: EvmIr -> EvmCode
 
 -- 0s: Stop and Arithmetic Operations
@@ -84,7 +87,10 @@ codemap JUMPDEST       = "5b"
 
 -- 60s & 70s: Push Operations
 -- TODO: adjust size!
-codemap (PUSH n x)     = printf "%02x" (0x60 - 1 + n) ++ printf "%02x" x
+-- codemap (PUSH n x)     = printf "%02x" (0x60 - 1 + n) ++ printf "%02x" x
+codemap (PUSH n x)
+    | isByteRange n x  = printf "%02x" (0x60 - 1 + n) ++ (clipByte n x)
+    | otherwise        = error $ (show x) ++ ": out of range for PHSHn"
 
 -- 80s: Duplication Operations
 codemap (DUP n)        = printf "%02x" (0x80 - 1 + n)
@@ -115,4 +121,17 @@ codemap (P_RAW x)      = printf "%02x" x
 
 -- error
 codemap x              = error $ show x
+
+
+------------------------------------------------------------------------
+-- Utility
+------------------------------------------------------------------------
+-- Size adjustment for PUSHn
+isByteRange :: Int -> Integer -> Bool
+isByteRange nbyte x
+    | x < 2^(8*nbyte) && x >= 0 = True
+    | otherwise              = False
+
+clipByte :: Int -> Integer -> EvmCode
+clipByte nbyte x = reverse . take (2*nbyte) . reverse $ printf "%064x" x
 
