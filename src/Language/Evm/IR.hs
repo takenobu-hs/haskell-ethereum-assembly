@@ -51,8 +51,8 @@ data EvmIr =
            | GASPRICE
            | EXTCODESIZE
            | EXTCODECOPY
-           | RETURNDATASIZE
-           | RETURNDATACOPY
+           | RETURNDATASIZE     -- Byzantium
+           | RETURNDATACOPY     -- Byzantium
 
            -- 40s: Block Information
            | BLOCKHASH
@@ -171,12 +171,12 @@ data EvmIr =
            | CALL
            | CALLCODE
            | RETURN
-           | DELEGATECALL
+           | DELEGATECALL       -- Homestead
 
-           | STATICCALL
+           | STATICCALL         -- Byzantium
 
            | INVALID
-           | REVERT
+           | REVERT             -- Byzantium
            | SELFDESTRUCT
 
            -- pseudo instructions
