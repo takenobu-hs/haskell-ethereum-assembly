@@ -18,7 +18,7 @@ Feature:
   * Only a few dependent libraries and GHC extensions
 
 Limitation:
-  * Weak error detection
+  * Weak error detection and cheap error implementation
   * Jump size is limited to 2 bytes
 
 
