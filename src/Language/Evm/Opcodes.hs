@@ -108,3 +108,11 @@ codemap INVALID        = "fd"
 codemap REVERT         = "fe"     -- Homestead
 codemap SELFDESTRUCT   = "ff"
 
+-- pseudo instructions
+codemap (P_JUMPDEST _) = "5b"     -- JUMPDEST instruction
+codemap (P_LABEL _)    = ""       -- label symbol
+codemap (P_RAW x)      = printf "%02x" x
+
+-- error
+codemap x              = error $ show x
+
