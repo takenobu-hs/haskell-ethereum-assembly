@@ -16,8 +16,10 @@ data EvmIr =
            | SDIV
            | MOD
            | SMOD
+           | ADDMOD
+           | MULMOD
            | EXP
-           | NOT
+           | SIGNEXTEND
 
            -- 10s: Comparison & Bitwise Logic Operations
            | LT
@@ -26,13 +28,11 @@ data EvmIr =
            | SGT
            | EQ
            | ISZERO
-           | SIGNEXTEND
            | AND
            | OR
            | XOR
+           | NOT
            | BYTE
-           | ADDMOD
-           | MULMOD
 
            -- 20s: SHA3
            | SHA3
@@ -46,8 +46,6 @@ data EvmIr =
            | CALLDATALOAD
            | CALLDATASIZE
            | CALLDATACOPY
-           | DELEGATECALL
-           | STATICCALL
            | CODESIZE
            | CODECOPY
            | GASPRICE
@@ -171,8 +169,13 @@ data EvmIr =
            -- f0s: System operations
            | CREATE
            | CALL
-           | RETURN
            | CALLCODE
+           | RETURN
+           | DELEGATECALL
+
+           | STATICCALL
+
+           | INVALID
            | REVERT
            | SELFDESTRUCT
 
