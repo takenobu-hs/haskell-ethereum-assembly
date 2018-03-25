@@ -5,6 +5,7 @@ import           Control.Monad.State
 import           Language.Evm.IR
 import           Language.Evm.Opcodes
 import           Language.Evm.Types
+import           Language.Evm.Utils
 
 
 ------------------------------------------------------------------------
@@ -85,7 +86,9 @@ convSymbol _ x = [x]
 
 resolveSymbols :: SymbolMap -> [EvmIr] -> [EvmIr]
 resolveSymbols smap []     = []
-resolveSymbols smap (x:xs) = convSymbol smap x ++ resolveSymbols smap xs
+resolveSymbols smap (x:xs)
+    | isUniqKey smap = convSymbol smap x ++ resolveSymbols smap xs
+    | otherwise      = error $ (show smap) ++ ": duplicate symbol"
 
 ir2ir :: [EvmIr] -> [EvmIr]
 ir2ir x = let (_, _, smap) = genProgInfo initProgInfo x
