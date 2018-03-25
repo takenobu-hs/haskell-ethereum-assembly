@@ -40,7 +40,7 @@ Example:
 
 ## Code example
 
-Basic:
+#### Basic:
 
   ```Haskell
   main :: IO ()
@@ -53,7 +53,7 @@ Basic:
       add
   ```
 
-Composable:
+#### Composable:
 
   ```Haskell
   prog2 :: EvmAsm
@@ -63,7 +63,7 @@ Composable:
       sub
   ```
 
-Pseudo instruction and built-in function:
+#### Pseudo instruction and built-in function:
 
   * `_dest` : pseudo instruction for jump destination (`_jump`)
   * `_label` : pseudo instruction for push with symbol (`_pushlabel`)
@@ -94,7 +94,7 @@ Pseudo instruction and built-in function:
       _raw 0x8
   ```
 
-Using host language (Haskell):  
+#### Using host language (Haskell):
 Example1:
 
   ```Haskell
