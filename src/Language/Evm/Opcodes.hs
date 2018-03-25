@@ -1,5 +1,5 @@
 
-module Language.Evm.Opecode where
+module Language.Evm.Opcodes where
 
 import           Language.Evm.IR
 import           Language.Evm.Types

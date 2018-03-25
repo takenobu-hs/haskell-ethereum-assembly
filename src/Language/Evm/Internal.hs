@@ -3,7 +3,7 @@ module Language.Evm.Internal where
 
 import           Control.Monad.State
 import           Language.Evm.IR
-import           Language.Evm.Opecode
+import           Language.Evm.Opcodes
 import           Language.Evm.Types
 
 
