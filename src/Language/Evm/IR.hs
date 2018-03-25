@@ -77,7 +77,7 @@ data EvmIr =
            | JUMPDEST
 
            -- 60s & 70s: Push Operations
-           | PUSH Int Int
+           | PUSH Int Integer
 {---
            | PUSH1
            | PUSH2

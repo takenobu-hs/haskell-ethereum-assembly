@@ -119,10 +119,12 @@ gas      = makeAsm GAS
 jumpdest = makeAsm JUMPDEST
 
 -- 60s & 70s: Push Operations
-push1, push2, push3, push4, push5, push6, push7, push8 :: Int -> EvmAsm
-push9, push10, push11, push12, push13, push14, push15, push16 :: Int -> EvmAsm
-push17, push18, push19, push20, push21, push22, push23, push24 :: Int -> EvmAsm
-push25, push26, push27, push28, push29, push30, push31, push32 :: Int -> EvmAsm
+push1, push2, push3, push4, push5, push6 :: Integer -> EvmAsm
+push7, push8, push9, push10, push11, push12 :: Integer -> EvmAsm
+push13, push14, push15, push16, push17, push18 :: Integer -> EvmAsm
+push19, push20, push21, push22, push23, push24 :: Integer -> EvmAsm
+push25, push26, push27, push28, push29, push30 :: Integer -> EvmAsm
+push31, push32 :: Integer -> EvmAsm
 push1 x  = makeAsm $ PUSH  1 x
 push2 x  = makeAsm $ PUSH  2 x
 push3 x  = makeAsm $ PUSH  3 x

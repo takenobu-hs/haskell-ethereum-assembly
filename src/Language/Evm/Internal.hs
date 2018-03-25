@@ -72,12 +72,12 @@ debugShowIr x = genProgInfo initProgInfo $ asm2ir x
 convSymbol :: SymbolMap -> EvmIr -> [EvmIr]
 convSymbol smap (P_JUMP t) =
     case lookup t smap of
-        Just x -> [PUSH 2 x, JUMP]
+        Just x -> [PUSH 2 (toInteger x), JUMP]
         _      -> error $ t ++ ": symbol not found"
 
 convSymbol smap (P_PUSH t) =
     case lookup t smap of
-        Just x -> [PUSH 2 x]
+        Just x -> [PUSH 2 (toInteger x)]
         _      -> error $ t ++ ": symbol not found"
 
 convSymbol _ x = [x]
