@@ -26,9 +26,9 @@ Limitation:
 
 Command:
 
-  * `$ runghc ...`
-  * `$ stack ...`
-  * `$ cabal ...`
+  * `$ runghc -isrc app/Main.hs`
+  * `$ stack build; stack exec hassembly-evm
+  * `$ cabal run`
 
 Example:
 

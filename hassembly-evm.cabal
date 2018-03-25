@@ -1,0 +1,40 @@
+name:                hassembly-evm
+version:             0.1.0.0
+synopsis:            EVM (Ethereum virtual machine) Assembly on Haskell DSL
+description:         This is a bytecode generator from EVM assembly on Haskell.
+homepage:            https://github.com/takenobu-hs
+license:             BSD3
+license-file:        LICENSE
+author:              Takenobu Tani
+maintainer:          takenobu.hs@gmail.com
+copyright:           Takenobu Tani
+category:            Language
+build-type:          Simple
+extra-source-files:  ChangeLog.md, README.md
+cabal-version:       >=1.10
+
+source-repository head
+  type:     git
+  location: https://github.com/takenobu-hs/haskell-ethereum-assembly.git
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Language.Evm
+                       Language.Evm.Types
+                       Language.Evm.Instructions
+                       Language.Evm.IR
+                       Language.Evm.Opcodes
+                       Language.Evm.Internal
+                       Language.Evm.Utils
+  -- other-modules:       
+  -- other-extensions:    
+  build-depends:       base, mtl
+  default-language:    Haskell2010
+
+executable hassembly-evm
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  build-depends:       base,
+                       hassembly-evm
+  default-language:    Haskell2010
+
