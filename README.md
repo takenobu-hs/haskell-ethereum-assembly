@@ -105,8 +105,8 @@ Example2:
 
   ```Haskell
   shiftL nbit = do    -- user defined function
-      push nbit
-      push 2
+      push1 nbit
+      push1 2
       exp
       mul
   
