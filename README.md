@@ -78,7 +78,7 @@ Pseudo instruction and built-in function:
       _jump "target2"
   
       push1 (_codeSize prog4)
-      _push "top1"
+      _pushlabel "top1"
       _dest "target2"
   
   

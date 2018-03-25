@@ -26,8 +26,8 @@ _raw x = makeAsm $ P_RAW x
 _jump :: String -> EvmAsm
 _jump x = makeAsm $ P_JUMP x
 
-_push :: String -> EvmAsm
-_push x = makeAsm $ P_PUSH x
+_pushlabel :: String -> EvmAsm
+_pushlabel x = makeAsm $ P_PUSH x
 
 
 -- built-in function
