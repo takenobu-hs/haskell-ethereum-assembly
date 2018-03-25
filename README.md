@@ -65,9 +65,13 @@ Composable:
 
 Pseudo instruction and built-in function:
 
-  * `_dest` and `_label` : pseudo instruction for jump and push with symbol
+  * `_dest` : pseudo instruction for jump destination (`_jump`)
+  * `_label` : pseudo instruction for push with symbol (`_pushlabel`)
+  * `_jump` : jump instruction with symbol
+  * `_pushlabel` : push instruction with symbol
+  * `_push` : push instruction with automatic length adjustment
   * `_raw` : pseudo instruction for raw byte
-  * `_progSize` : built-in function for code size
+  * `_progSize` : built-in function for program size
 
   ```Haskell
   prog3 :: EvmAsm
@@ -85,6 +89,7 @@ Pseudo instruction and built-in function:
   prog4 :: EvmAsm
   prog4 = do
       _label "top1"
+      _push 0x11234456788
       _raw 0x7
       _raw 0x8
   ```
