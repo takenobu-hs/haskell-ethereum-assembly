@@ -31,8 +31,8 @@ _pushlabel x = makeAsm $ P_PUSH x
 
 
 -- built-in function
-_codeSize :: EvmAsm -> Integer
-_codeSize = __codeSize
+_progSize :: EvmAsm -> Integer
+_progSize = __progSize
 
 
 ------------------------------------------------------------------------

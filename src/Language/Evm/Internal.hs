@@ -105,8 +105,8 @@ asm2code = ir2code . ir2ir . asm2ir
 ------------------------------------------------------------------------
 -- Special instructions and functions
 ------------------------------------------------------------------------
-__codeSize :: EvmAsm -> Integer
-__codeSize p = let (size, _, _) = genProgInfo initProgInfo
+__progSize :: EvmAsm -> Integer
+__progSize p = let (size, _, _) = genProgInfo initProgInfo
                                . insts . execState p $ initState
                in toInteger size
 

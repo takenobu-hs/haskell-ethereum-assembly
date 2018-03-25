@@ -67,7 +67,7 @@ Pseudo instruction and built-in function:
 
   * `_dest` and `_label` : pseudo instruction for jump and push with symbol
   * `_raw` : pseudo instruction for raw byte
-  * `_codeSize` : built-in function for code size
+  * `_progSize` : built-in function for code size
 
   ```Haskell
   prog3 :: EvmAsm
@@ -77,7 +77,7 @@ Pseudo instruction and built-in function:
       mstore
       _jump "target2"
   
-      push1 (_codeSize prog4)
+      push1 (_progSize prog4)
       _pushlabel "top1"
       _dest "target2"
   
