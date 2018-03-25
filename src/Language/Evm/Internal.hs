@@ -69,6 +69,7 @@ debugShowIr x = genProgInfo initProgInfo $ asm2ir x
 
 
 -- pre-phase2 (symbol resolution)
+--  TODO: Implement PUSH size for each length
 convSymbol :: SymbolMap -> EvmIr -> [EvmIr]
 convSymbol smap (P_JUMP t) =
     case lookup t smap of
