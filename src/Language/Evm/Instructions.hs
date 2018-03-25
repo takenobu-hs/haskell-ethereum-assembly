@@ -31,7 +31,7 @@ _push x = makeAsm $ P_PUSH x
 
 
 -- built-in function
-_codeSize :: EvmAsm -> Int
+_codeSize :: EvmAsm -> Integer
 _codeSize = __codeSize
 
 
