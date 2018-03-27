@@ -14,6 +14,7 @@ shiftL nbit = do    -- user defined function
     exp
     mul
 
+prog6 :: EvmAsm
 prog6 = do
     mload
     shiftL 16    -- using
