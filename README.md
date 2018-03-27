@@ -132,7 +132,7 @@ Example1:
       add
   ```
 
-Example2:
+Example2: (examples/userSyntax.hs)
 
   ```Haskell
   prog7 = do
