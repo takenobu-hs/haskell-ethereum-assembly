@@ -77,8 +77,8 @@ const x = _push x
 
 make2op :: EvmAsm -> (EvmAsm, EvmAsm) -> EvmAsm
 make2op op (x,y) = do
-    x
     y
+    x
     op
 
 add2 = make2op add
