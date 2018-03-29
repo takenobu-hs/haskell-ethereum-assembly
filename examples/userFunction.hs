@@ -1,6 +1,6 @@
 
 
-module Test where
+module Main where
 
 import           Prelude hiding (exp)
 import           Language.Evm
