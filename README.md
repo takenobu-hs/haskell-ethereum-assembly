@@ -67,9 +67,16 @@ Code example
   ```Haskell
   prog2 :: EvmAsm
   prog2 = do
-      prog1       -- compose
-      push1 0x5
-      sub
+      prog2a
+      prog2b
+
+  prog2a = do
+      push1 0x40
+      mload
+
+  prog2b = do
+      push1 0x20
+      add
   ```
 
 #### Pseudo instruction and built-in function:
