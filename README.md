@@ -138,6 +138,8 @@ Example1:
       shiftL 16    -- using
       push1 0x1
       add
+
+      string "OK" >> log1
   ```
 
 Example2: (examples/userSyntax.hs)
