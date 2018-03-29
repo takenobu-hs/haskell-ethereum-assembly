@@ -27,6 +27,9 @@ _raw x = makeAsm $ P_RAW x
 _jump :: String -> EvmAsm
 _jump x = makeAsm $ P_JUMP x
 
+_jumpi :: String -> EvmAsm
+_jumpi x = makeAsm $ P_JUMPI x
+
 _pushlabel :: String -> EvmAsm
 _pushlabel x = makeAsm $ P_PUSH x
 

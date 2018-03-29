@@ -77,6 +77,11 @@ convSymbol smap (P_JUMP t) =
         Just x -> [PUSH 2 (toInteger x), JUMP]
         _      -> error $ t ++ ": symbol not found"
 
+convSymbol smap (P_JUMPI t) =
+    case lookup t smap of
+        Just x -> [PUSH 2 (toInteger x), JUMPI]
+        _      -> error $ t ++ ": symbol not found"
+
 convSymbol smap (P_PUSH t) =
     case lookup t smap of
         Just x -> [PUSH 2 (toInteger x)]

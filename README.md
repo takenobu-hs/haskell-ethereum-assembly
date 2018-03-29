@@ -81,9 +81,9 @@ Code example
 
 #### Pseudo instruction and built-in function:
 
-  * `_dest` : pseudo instruction for jump destination (`_jump`)
+  * `_dest` : pseudo instruction for jump destination (`_jump` and `_jumpi`)
   * `_label` : pseudo instruction for push with symbol (`_pushlabel`)
-  * `_jump` : jump instruction with symbol
+  * `_jump` and `_jumpi` : jump instruction with symbol
   * `_pushlabel` : push instruction with symbol
   * `_push` : push instruction with automatic length adjustment
   * `_raw` : pseudo instruction for raw byte

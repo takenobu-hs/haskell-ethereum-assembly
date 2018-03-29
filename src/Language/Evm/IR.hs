@@ -182,6 +182,7 @@ data EvmIr =
            -- pseudo instructions
            | P_JUMPDEST String  -- jump destination with symbol
            | P_JUMP String      -- jump with symbol
+           | P_JUMPI String     -- jump with symbol
            | P_LABEL String     -- symbol label
            | P_PUSH String      -- push with symbol
            | P_RAW Int          -- raw byte
