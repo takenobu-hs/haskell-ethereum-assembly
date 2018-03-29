@@ -43,6 +43,9 @@ _push x
 _progSize :: EvmAsm -> Integer
 _progSize = __progSize
 
+_genUniqLabel :: Evm String
+_genUniqLabel = __genUniqLabel
+
 
 ------------------------------------------------------------------------
 -- Definition of asm

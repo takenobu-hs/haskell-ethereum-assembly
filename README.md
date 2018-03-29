@@ -88,6 +88,7 @@ Code example
   * `_push` : push instruction with automatic length adjustment
   * `_raw` : pseudo instruction for raw byte
   * `_progSize` : built-in function for program size
+  * `_genUniqLabel` : built-in function to generate unique label
 
   ```Haskell
   prog3 :: EvmAsm
@@ -155,6 +156,21 @@ Example2: (examples/userSyntax.hs)
       memory(factor1) <== mul    -- assignment syntax
 
       storage(user1) <== mul2(num2, (add2(const 4, ref factor1)))
+  ```
+
+Example3: (examples/userFlow.hs)
+
+  ```Haskell
+  prog8 = do
+      _if (iszero) (do -- then
+            push1 0x01
+            push1 0x02
+            add
+        ) (do -- else
+            push1 0x01
+            push1 0x02
+            sub
+        )
   ```
 
 

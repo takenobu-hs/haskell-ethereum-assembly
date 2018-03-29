@@ -10,8 +10,9 @@ import           Language.Evm.IR
 type Evm a = State EvmState a
 type EvmAsm = Evm ()
 
-newtype EvmState = EvmState {
-                  insts :: [EvmIr]
+data EvmState = EvmState {
+                  insts   :: [EvmIr]
+                , labelId :: Int
                 } deriving Show
 
 type EvmCode = String

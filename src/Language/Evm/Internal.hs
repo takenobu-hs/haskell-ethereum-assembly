@@ -12,7 +12,7 @@ import           Language.Evm.Utils
 -- Initial data
 ------------------------------------------------------------------------
 initState :: EvmState
-initState = EvmState []
+initState = EvmState [] 0
 
 initProgInfo :: ProgInfo 
 initProgInfo = (0, [], [])
@@ -118,4 +118,10 @@ __progSize :: EvmAsm -> Integer
 __progSize p = let (size, _, _) = genProgInfo initProgInfo
                                . insts . execState p $ initState
                in toInteger size
+
+__genUniqLabel :: Evm String
+__genUniqLabel = do
+    num <- gets labelId
+    modify $ \s -> s { labelId = num + 1 }
+    return $ "_label_" ++ show num
 
