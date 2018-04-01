@@ -1,7 +1,7 @@
 
 module Language.Evm.Types where
 
-import           Control.Monad.State
+import           Control.Monad.Trans.State
 import           Language.Evm.IR
 
 ------------------------------------------------------------------------

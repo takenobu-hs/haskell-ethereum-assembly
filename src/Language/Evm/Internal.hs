@@ -1,7 +1,7 @@
 
 module Language.Evm.Internal where
 
-import           Control.Monad.State
+import           Control.Monad.Trans.State
 import           Language.Evm.IR
 import           Language.Evm.Opcodes
 import           Language.Evm.Types
