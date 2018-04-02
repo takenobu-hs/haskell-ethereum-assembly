@@ -14,7 +14,7 @@ import           Language.Evm.Utils
 initState :: EvmState
 initState = EvmState [] 0
 
-initProgInfo :: ProgInfo 
+initProgInfo :: ProgInfo
 initProgInfo = (0, [], [])
 
 
@@ -28,17 +28,23 @@ makeAsm op = do
 
 
 ------------------------------------------------------------------------
--- Pre-processing
+-- IR generation from Asm
 ------------------------------------------------------------------------
 genAsmState :: EvmAsm -> EvmState
 genAsmState p = execState p initState
 
+asm2rawIr :: EvmAsm -> [EvmIr]
+asm2rawIr p = insts $ genAsmState p
+
 asm2ir :: EvmAsm -> [EvmIr]
-asm2ir p = insts $ genAsmState p
+asm2ir = resolveIr . transformIr . asm2rawIr
+
+debugShowIr :: EvmAsm -> ProgInfo
+debugShowIr p = genProgInfo initProgInfo $ asm2ir p
 
 
 ------------------------------------------------------------------------
--- Pre-processing
+-- Transform IR and resolve symbols
 ------------------------------------------------------------------------
 type Addr = Int
 type Symbol = String
@@ -46,9 +52,24 @@ type SymbolMap = [(Symbol, Addr)]
 type InstMap  = [(Addr, EvmIr)]
 type ProgInfo = (Addr, InstMap, SymbolMap)
 
--- pre-phase1 (code analysis)
+-- phase1 (expantion transform)
+jumpInstInc :: Int
+jumpInstInc = 2      -- TODO
+
+transformIr :: [EvmIr] -> [EvmIr]
+transformIr x = concat $ map expantion x
+
+expantion :: EvmIr -> [EvmIr]
+expantion (P_JUMP t)  = [P_PUSH t, JUMP]
+expantion (P_JUMPI t) = [P_PUSH t, JUMPI]
+expantion x           = [x]
+
+
+-- phase2 (symbol resolution)
+--  TODO: Implement PUSH size for each length
 instLen :: EvmIr -> Int
 instLen (P_LABEL _) = 0
+instLen (P_PUSH _)  = jumpInstInc + 1
 instLen (PUSH n _)  = n + 1
 instLen _           = 1
 
@@ -65,28 +86,11 @@ genProgInfo (pc, imap, smap) (x:xs) =
         smap' = addSymbolMap smap pc x
     in  genProgInfo (pc', imap', smap') xs
 
-debugShowIr :: EvmAsm -> ProgInfo
-debugShowIr x = genProgInfo initProgInfo $ asm2ir x
-
-
--- pre-phase2 (symbol resolution)
---  TODO: Implement PUSH size for each length
 convSymbol :: SymbolMap -> EvmIr -> [EvmIr]
-convSymbol smap (P_JUMP t) =
-    case lookup t smap of
-        Just x -> [PUSH 2 (toInteger x), JUMP]
-        _      -> error $ t ++ ": symbol not found"
-
-convSymbol smap (P_JUMPI t) =
-    case lookup t smap of
-        Just x -> [PUSH 2 (toInteger x), JUMPI]
-        _      -> error $ t ++ ": symbol not found"
-
 convSymbol smap (P_PUSH t) =
     case lookup t smap of
-        Just x -> [PUSH 2 (toInteger x)]
+        Just x -> [PUSH jumpInstInc (toInteger x)]    -- TODO jumpInstInc
         _      -> error $ t ++ ": symbol not found"
-
 convSymbol _ x = [x]
 
 resolveSymbols :: SymbolMap -> [EvmIr] -> [EvmIr]
@@ -95,9 +99,9 @@ resolveSymbols smap (x:xs)
     | isUniqKey smap = convSymbol smap x ++ resolveSymbols smap xs
     | otherwise      = error $ (show smap) ++ ": duplicate symbol"
 
-ir2ir :: [EvmIr] -> [EvmIr]
-ir2ir x = let (_, _, smap) = genProgInfo initProgInfo x
-          in  resolveSymbols smap x
+resolveIr :: [EvmIr] -> [EvmIr]
+resolveIr x = let (_, _, smap) = genProgInfo initProgInfo x
+              in  resolveSymbols smap x
 
 
 ------------------------------------------------------------------------
@@ -108,15 +112,14 @@ ir2code []     = ""
 ir2code (x:xs) = codemap x ++ ir2code xs
 
 asm2code :: EvmAsm -> EvmCode
-asm2code = ir2code . ir2ir . asm2ir
+asm2code = ir2code . asm2ir
 
 
 ------------------------------------------------------------------------
 -- Special instructions and functions
 ------------------------------------------------------------------------
 __progSize :: EvmAsm -> Integer
-__progSize p = let (size, _, _) = genProgInfo initProgInfo
-                               . insts . execState p $ initState
+__progSize p = let (size, _, _) = genProgInfo initProgInfo $ asm2ir p
                in toInteger size
 
 __genUniqLabel :: Evm String
