@@ -192,6 +192,41 @@ Disasemble bytecode by evm command:
   $ evm disasm sample.bytecode
   ```
 
+
+Under implementation ...
+------------------------
+
+#### Simple listing:
+
+  ```bash
+  $ runghc -isrc examples/PprList.hs
+  000000: push1 0x10
+  000002: push1 0x20
+  000004: add
+  000005: stop
+  ```
+
+#### Pretty-print for Solidity:
+
+  ```bash
+  $ runghc -isrc examples/PprSol.hs
+  {
+      0x10
+      0x20
+      add
+      stop
+      pop
+  }
+  ```
+
+#### Stack hight checking:
+
+  ```bash
+  $ runghc -isrc examples/StackCheck.hs
+  Final stack-hight: 0
+  ```
+
+
 See also
 --------
 
