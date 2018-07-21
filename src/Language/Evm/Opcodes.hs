@@ -111,8 +111,8 @@ codemap DELEGATECALL   = "f4"     -- Byzantium
 
 codemap STATICCALL     = "fa"     -- Byzantium
 
-codemap INVALID        = "fd"
-codemap REVERT         = "fe"     -- Homestead
+codemap REVERT         = "fd"
+codemap INVALID        = "fe"
 codemap SELFDESTRUCT   = "ff"
 
 -- pseudo instructions
