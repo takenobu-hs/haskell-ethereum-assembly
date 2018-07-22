@@ -107,11 +107,11 @@ codemap CREATE         = "f0"
 codemap CALL           = "f1"
 codemap CALLCODE       = "f2"
 codemap RETURN         = "f3"
-codemap DELEGATECALL   = "f4"     -- Byzantium
+codemap DELEGATECALL   = "f4"     -- Homestead
 
 codemap STATICCALL     = "fa"     -- Byzantium
 
-codemap REVERT         = "fd"
+codemap REVERT         = "fd"     -- Byzantium
 codemap INVALID        = "fe"
 codemap SELFDESTRUCT   = "ff"
 

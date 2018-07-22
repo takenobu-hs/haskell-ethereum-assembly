@@ -230,7 +230,7 @@ staticcall :: EvmAsm
 staticcall  = makeAsm STATICCALL
 
 invalid, revert, selfdestruct :: EvmAsm
-invalid      = makeAsm INVALID
 revert       = makeAsm REVERT
+invalid      = makeAsm INVALID
 selfdestruct = makeAsm SELFDESTRUCT
 

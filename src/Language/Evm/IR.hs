@@ -175,8 +175,8 @@ data EvmIr =
 
            | STATICCALL         -- Byzantium
 
-           | INVALID
            | REVERT             -- Byzantium
+           | INVALID
            | SELFDESTRUCT
 
            -- pseudo instructions
