@@ -54,7 +54,7 @@ Code example
   ```Haskell
   main :: IO ()
   main = putStrLn $ codegen prog1
-  
+
   prog1 :: EvmAsm
   prog1 = do
       push1 0x10
@@ -97,12 +97,12 @@ Code example
       push1 0x40
       mstore
       _jump "target2"            -- symbol jump
-  
+
       push1 (_progSize prog4)    -- program size
       _pushlabel "top1"          -- push label
       _dest "target2"            -- jump target
-  
-  
+
+
   prog4 :: EvmAsm
   prog4 = do
       _label "top1"              -- label
@@ -132,7 +132,7 @@ Example1:
       push1 2
       exp
       mul
-  
+
   prog6 = do
       mload
       shiftL 16    -- using
@@ -193,18 +193,34 @@ Disasemble bytecode by evm command:
   ```
 
 
-Under implementation ...
-------------------------
+Listing and pretty printing
+---------------------------
 
 #### Simple listing:
 
+Use `pprList` function:
+
+  ```Haskell
+  main :: IO ()
+  main = putStrLn $ pprList prog1   -- using `pprList`
+
+  prog1 :: EvmAsm
+  prog1 = do ...
+  ```
+
+Output example:
+
   ```bash
-  $ runghc -isrc examples/PprList.hs
+  $ runghc -isrc examples/pprList.hs
   000000: push1 0x10
   000002: push1 0x20
   000004: add
   000005: stop
   ```
+
+
+Under implementation ...
+------------------------
 
 #### Pretty-print for Solidity:
 
