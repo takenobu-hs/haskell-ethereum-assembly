@@ -23,7 +23,8 @@ initProgInfo = (0, [], [])
 ------------------------------------------------------------------------
 makeAsm :: EvmIr -> EvmAsm
 makeAsm op = do
-    modify $ \s -> s { insts = (insts s) ++ [op] }
+    i <- gets insts
+    modify $ \s -> s { insts = i ++ [op] }
 
 
 ------------------------------------------------------------------------
@@ -56,7 +57,7 @@ jumpInstInc :: Int
 jumpInstInc = 2      -- TODO
 
 transformIr :: [EvmIr] -> [EvmIr]
-transformIr = (>>= expantion)
+transformIr x = concat $ map expantion x
 
 expantion :: EvmIr -> [EvmIr]
 expantion (P_JUMP t)  = [P_PUSH t, JUMP]
@@ -81,7 +82,7 @@ genProgInfo :: ProgInfo -> [EvmIr] -> ProgInfo
 genProgInfo v [] = v
 genProgInfo (pc, imap, smap) (x:xs) =
     let pc'   = instLen x + pc
-        imap' = imap ++ [(pc', x)]
+        imap' = imap ++ [(pc, x)]
         smap' = addSymbolMap smap pc x
     in  genProgInfo (pc', imap', smap') xs
 
